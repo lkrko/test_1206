@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+
+<style type="text/css">
+	
+	 body {
+            margin: 0;
+            padding: 0;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh; /* 100% viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+	.candy{width: 490px;
+		margin: auto;
+		position: absolute;
+		top:450px;
+		left:37%;
+	animation: rotate 1.5s infinite linear; 
+    transform-origin: center center;}
+   .star { position: absolute; left: 0; top: 0; }
+
+
+@keyframes rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+.scrolling-text {
+            position: absolute;
+            bottom: 10px;
+            white-space: nowrap;
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF33BA;
+            animation: scrollText 14s linear infinite; 
+        }
+
+        @keyframes rotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes scrollText {
+            from {
+                transform: translateX(100%); 
+            }
+            to {
+                transform: translateX(-100%); 
+            }
+        }
+
+
+
+</style>
+
+</head>
+<body>
+	<section class="wrapper">
+		<div class="bg">
+		<a href="2.html">
+			<img src="main.png" class="candy">
+		</a>
+
+		<div class="scrolling-text">
+				Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. 
+    </div>
+
+		</div>
+
+		
+	</section>
+
+	<script type="text/javascript">
+       
+            document.addEventListener("DOMContentLoaded", function () {
+                const numberOfStars = 15; 
+
+                for (let i = 0; i < numberOfStars; i++) {
+                    createStar();
+                }
+
+                function createStar() {
+                    const star = document.createElement("img");
+                    star.src = "star.png";
+                    star.classList.add("star");
+
+                    star.style.width = "20px";
+                    star.style.height = "20px";
+
+                    star.style.left = Math.random() * window.innerWidth + "px";
+                    star.style.top = Math.random() * window.innerHeight + "px";
+
+                    document.body.appendChild(star);
+                }
+            });
+
+   document.addEventListener("DOMContentLoaded", function () {
+                const scrollingTextContainer = document.getElementById("scrollingTextContainer");
+
+                const textToRepeat = "Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you. Be careful! It's too sweet for you.";
+
+                const repeatCount = 10;
+
+                for (let i = 0; i < repeatCount; i++) {
+                    const scrollingText = document.createElement("span");
+                    scrollingText.textContent = textToRepeat;
+                    scrollingTextContainer.appendChild(scrollingText);
+                }
+            });
+
+    </script>
+
+
+
+</body>
+</html>

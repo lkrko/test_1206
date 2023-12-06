@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+<style type="text/css">
+    body {margin: 0;
+            background-image: url('bg3.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 2400px}
+    .wrapper{text-align: center;}
+    .recipt{margin: auto;
+            width: 50%;
+            position: absolute;
+            display: block;
+            }
+    .star { position: absolute; left: 0; top: 0; }
+</style>
+
+
+</head>
+<body>
+    <div class="wrapper">
+    <img src="recipt.png" class="recipt">
+    </div>
+
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+                const numberOfStars = 15; 
+
+                for (let i = 0; i < numberOfStars; i++) {
+                    createStar();
+                }
+
+                function createStar() {
+                    const star = document.createElement("img");
+                    star.src = "blackstar.png";
+                    star.classList.add("star");
+
+                    star.style.width = "20px";
+                    star.style.height = "20px";
+
+                    star.style.left = Math.random() * window.innerWidth + "px";
+                    star.style.top = Math.random() * window.innerHeight + "px";
+
+                    document.body.appendChild(star);
+                }
+            });
+</script>
+</body>
+</html>

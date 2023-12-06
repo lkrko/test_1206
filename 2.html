@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+
+	<style type="text/css">
+		body {margin: 0;
+            background-image: url('bg2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 1800px
+        transition: filter 1s ease-in-out; /* 흑백 전환에 대한 트랜지션 추가 */
+        }
+        .title{position: absolute;
+        	left: 30px; top: 30px;
+        		width: 700px}
+		.a{position: absolute; left: 151px; top: 124px; 
+			width: 260px;
+            height: auto;}
+        .b{position: absolute; left: 40px; top: 387px; 
+			width: 400px;
+            height: auto;
+        	transform: rotate(-45deg);}
+        .c{position: absolute; left: 26px; top: 300px; 
+			width: 180px;
+            height: auto;
+        	transform: rotate(20deg);}
+        .d{position: absolute; left: 345px; top: 127px; 
+			width: 250px;
+            height: auto;}
+        .e{position: absolute; left: 309px; top: 251px; 
+			width: 300px;
+            height: auto;
+        	transform: rotate(128deg);}
+        .f{position: absolute; left: 516px; top: 82px; 
+			width: 500px;
+            height: auto;
+        	}
+        .g{position: absolute; left: 425px; top: 500px; 
+			width: 390px;
+            height: auto;
+        	transform: rotate(0deg);}
+		.h{position: absolute; left: 940px; top: 101px; 
+			width: 160px;
+            height: auto;
+        	transform: rotate(30deg);}
+		.i{position: absolute; left: 799px; top: 479px; 
+			width: 320px;
+            height: auto;
+        	transform: rotate(20deg);}
+        .j{position: absolute; left: 956px; top: 113px; 
+			width: 530px;
+            height: auto;
+        	transform: rotate(0deg);}
+
+
+
+        #score { position: absolute; right: 30px; top: 55px; font-size: 1.2rem; color: #FF33BA; }
+        #timeLeft {
+            position: absolute;
+            right: 30px;
+            top: 30px;
+            font-size: 1.2rem;
+            color: #FF33BA;
+            white-space: nowrap;
+        }
+        #max{position: absolute; right: 43px; top: 250px;
+        font-size: 1.2rem; color: #FF33BA;}
+
+        #graphContainer {
+            position: fixed;
+            right: 30px;
+            bottom: 0px;
+            width: 60px;
+            height: 700px;
+            background-color: white;
+            display: flex;
+            flex-direction: column-reverse;
+            border: 1px solid black;
+            
+        }
+
+        #graphBar {
+            background-color: #FF33BA;
+            flex-grow: 0;
+            transition: height 0.5s ease-in-out;
+        }
+
+        .new-candy {
+            opacity: 1;
+            animation: fadeOut 1s ease-out forwards; 
+        }
+	</style>
+
+</head>
+<body>
+	<img src="title.png" class="title">
+
+	<img src="candy5.png" class="a" onclick="handleCandyClick(this)">
+	<img src="main.png" class="b" onclick="handleCandyClick(this)">
+	<img src="candy7.png" class="c" onclick="handleCandyClick(this)">
+	<img src="candy8.png" class="d" onclick="handleCandyClick(this)">
+	<img src="candy16.png" class="e" onclick="handleCandyClick(this)">
+	<img src="candy13.png" class="f" onclick="handleCandyClick(this)">
+	<img src="candy10.png" class="g" onclick="handleCandyClick(this)">
+	<img src="candy14.png" class="h" onclick="handleCandyClick(this)">
+	<img src="candy12.png" class="i" onclick="handleCandyClick(this)">
+	<img src="candy15.png" class="j" onclick="handleCandyClick(this)">
+	
+	<div id="score">SCORE: <span id="currentScore">0</div>
+	<div id="timeLeft">TIME: <span id="remainingTime">15</div>
+	<div id="max">MAX</div>
+
+   	<div id="graphContainer">
+        <div id="graphBar"></div>
+    </div>
+
+	</div>
+
+    <script type="text/javascript">
+       let score = 0;
+       let timer;
+
+        function handleCandyClick(candy) {
+            score++;
+            document.getElementById('currentScore').innerText = score;
+
+            // 캔디를 숨기고 1초 후에 삭제
+            candy.style.display = 'none';
+            setTimeout(() => {
+                // 새로운 이미지로 교체
+                const newCandy = document.createElement('img');
+                newCandy.src = 'new-candy.gif'; // 새로운 이미지의 경로
+                newCandy.classList.add(candy.classList[0]); // 원래 캔디와 같은 클래스 추가
+                newCandy.onclick = function() { handleCandyClick(this); }; // 새로운 캔디에도 클릭 이벤트 추가
+                document.body.appendChild(newCandy); // 새로운 캔디를 body에 추가
+
+                // 1초 후에 새로운 캔디 삭제
+                setTimeout(() => {
+                    newCandy.style.display = 'none';
+                }, 1000);
+            }, 100); // 1초 후에 교체
+
+            if (score % 5 === 0) {
+                const currentFilterValue = document.body.style.filter;
+                const grayscaleValue = (score / 5) * 30;
+                document.body.style.filter = `grayscale(${grayscaleValue}%)`;
+            }
+
+
+            updateGraph();
+
+            if (score === 1) {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                const remainingTime = document.getElementById('remainingTime');
+                let seconds = parseInt(remainingTime.innerText, 10);
+                seconds--;
+
+                if (seconds <= 0) {
+                    clearInterval(timer);
+                    // 15초 후에 시스템 팝업 창 열기
+                    const sugarConsumed = score * 10; // 간단한 가정: 각 점수당 10그램의 설탕을 소비
+                    const popupMessage = "총 " + sugarConsumed + "그램의 설탕을 소비했습니다!";
+                    alert(popupMessage);
+
+                    // "OK" 버튼을 눌렀을 때 "3.html" 페이지로 이동
+                    window.location.href = "3.html";
+                } else {
+                    remainingTime.innerText = seconds;
+                }
+            }, 1000); // 1초마다 감소
+        }
+
+        function updateGraph() {
+            const graphBar = document.getElementById('graphBar');
+            const graphHeight = score * 20; 
+            graphBar.style.height = graphHeight + 'px';
+        }
+
+    </script>
+
+</body>
+</html>
+
